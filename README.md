@@ -9,8 +9,8 @@ In this repository, you'll find my notes, insights, and reflections on each simu
 
 ## Simulations
 
-- [KPMG Data Quality Assessment](KPMG - Data Quality Assessment.py)
-- [Data Insight Task: Book of Loans to PD](./Simulations/Data-Insight-Book-of-Loans-to-PD)
+- [KPMG Data Quality Assessment](./KPMG - Data Quality Assessment.py)
+- [Data Insight Task: Book of Loans to PD](./Task Analyze a book of loans to estimate a customer's probability of default.py)
 - [Bucket FICO Scores Analysis](./Simulations/Bucket-FICO-Scores)
 - [Analyze Price Data](./Simulations/Analyze-Price-Data)
 - [Price Commodity Storage](./Simulations/Price-Commodity-Storage)
