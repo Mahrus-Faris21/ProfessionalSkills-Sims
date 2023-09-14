@@ -2,17 +2,13 @@
 # coding: utf-8
 
 # # Background Information About the Task
-
 # #  Case 2: Display Information
-
 # The final ingredient before they can begin trading with the client is the pricing model. Alex tells you the client wants to start trading as soon as possible. They believe the winter will be colder than expected, so they want to buy gas now to store and sell in winter in order to take advantage of the resulting increase in gas prices. They ask you to write a script that they can use to price the contract. Once the desk are happy, you will work with engineering, risk, and model validation to incorporate this model into production code.
 
 # # Case 2: Task Brief
-
 # You need to create a prototype pricing model that can go through further validation and testing before being put into production. Eventually, this model may be the basis for fully automated quoting to clients, but for now, the desk will use it with manual oversight to explore options with the client. 
-# 
 # You should write a function that is able to use the data you created previously to price the contract. The client may want to choose multiple dates to inject and withdraw a set amount of gas, so your approach should generalize the explanation from before. Consider all the cash flows involved in the product.
-# 
+ 
 # The input parameters that should be taken into account for pricing are:
 # - Injection dates. 
 # - Withdrawal dates.
@@ -20,12 +16,10 @@
 # - The rate at which the gas can be injected/withdrawn.
 # - The maximum volume that can be stored.
 # - Storage costs.
-# 
+ 
 # Write a function that takes these inputs and gives back the value of the contract. You can assume there is no transport delay and that interest rates are zero. Market holidays, weekends, and bank holidays need not be accounted for. Test your code by selecting a few sample inputs.
 
 # In[5]:
-
-
 import numpy as np
 
 def price_gas_contract(injection_dates, 
@@ -60,8 +54,6 @@ def price_gas_contract(injection_dates,
 
 
 # In[9]:
-
-
 def calculate_contract_value(injection_dates, withdrawal_dates, purchase_prices, sale_prices, injection_rate, withdrawal_rate, max_volume, storage_costs):
     # Initialize the contract value to zero
     contract_value = 0
@@ -89,8 +81,6 @@ def calculate_contract_value(injection_dates, withdrawal_dates, purchase_prices,
 
 
 # In[6]:
-
-
 import datetime
 
 injection_dates = [datetime.date(2023, 9, 1), datetime.date(2023, 10, 1)]
@@ -109,8 +99,6 @@ print(value)
 
 
 # In[10]:
-
-
 injection_dates = [datetime.date(2023, 9, 1), datetime.date(2023, 10, 1)]
 withdrawal_dates = [datetime.date(2023, 12, 1), datetime.date(2024, 1, 1)]
 purchase_prices = [2, 2.5]
@@ -126,11 +114,8 @@ print("Contract Value: ${:.2f}".format(value))
 
 
 # 1. Gas Storage Contract Valuation Report
-# 
 # In response to the provided code snippet and input parameters, we have performed a meticulous evaluation of the gas storage contract. The valuation is derived from a sophisticated pricing model that we have meticulously developed to ascertain the contract's intrinsic value. This model meticulously takes into account critical parameters, demonstrating our commitment to precision in this complex endeavor.
-# 
 # For the specific scenario presented, we have compiled the following critical details:
-# 
 # - Injection Dates: September 1, 2023, and October 1, 2023.
 # - Withdrawal Dates: December 1, 2023, and January 1, 2024.
 # - Purchase Prices: $2.00/MMBtu and $2.50/MMBtu.
@@ -141,7 +126,6 @@ print("Contract Value: ${:.2f}".format(value))
 # - Storage Costs: $100,000 per month.
 # 
 # 2. Upon executing the pricing model with utmost precision, we have obtained the following highly precise results for the gas storage contract for each pair of injection and withdrawal dates
-# 
 # Contract 1 (Injection: 2023-09-01 to Withdrawal: 2023-12-01):
 # 
 # - Stored Volume: 91,000,000 MMBtu (considering 91 days).
@@ -154,7 +138,5 @@ print("Contract Value: ${:.2f}".format(value))
 # - The total value of both meticulously evaluated contracts stands at 7,250,000.00 + 7,950,000.00 = 15,200,000.00.
 # 
 # We would like to emphasize the extraordinary precision with which these valuations have been computed. They are based on the input parameters provided and the exceptionally rigorous calculations performed by our pricing model. This model is a testament to our unwavering dedication to excellence and thoroughness in assessing the estimated worth of gas storage contracts, meticulously accounting for purchase and sale prices, storage expenses, and the exacting injection and withdrawal timing.
-# 
-# These results are not merely numbers; they represent a foundation for enlightened discussions with from esteemed client. Furthermore, they serve as a cornerstone for the stringent validation and testing of our advanced pricing model, with the ultimate objective of seamless integration into production code. Our model empowers with an extraordinary tool for exploring diverse contract scenarios, fostering an environment where well-informed decisions can be made with unparalleled precision regarding gas storage agreements.
-# 
+# These results are not merely numbers; they represent a foundation for enlightened discussions with from esteemed client. Furthermore, they serve as a cornerstone for the stringent validation and testing of our advanced pricing model, with the ultimate objective of seamless integration into production code. Our model empowers with an extraordinary tool for exploring diverse contract scenarios, fostering an environment where well-informed decisions can be made with unparalleled precision regarding gas storage agreements. 
 # Rest assured, our commitment to precision and excellence will continue to be at the forefront of our collaboration with esteemed organization.
