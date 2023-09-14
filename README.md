@@ -9,7 +9,7 @@ In this repository, you'll find my notes, insights, and reflections on each simu
 
 ## Simulations
 
-- [KPMG Data Quality Assessment]()
+- [KPMG Data Quality Assessment](https://github.com/Mahrus-Faris21/ProfessionalSkills-Sims/blob/main/KPMG%20-%20Data%20Quality%20Assessment.py)
 - [Data Insight Task: Book of Loans to PD](./Simulations/Data-Insight-Book-of-Loans-to-PD)
 - [Bucket FICO Scores Analysis](./Simulations/Bucket-FICO-Scores)
 - [Analyze Price Data](./Simulations/Analyze-Price-Data)
