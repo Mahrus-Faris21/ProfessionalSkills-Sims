@@ -2,31 +2,22 @@
 # coding: utf-8
 
 # **Please make sure you attempt Module 1 before starting this Module**
-# 
 # Sprocket Central Pty Ltd has given us a new list of 1000 potential customers with their demographics and attributes. However, these customers do not have prior transaction history with the organisation. 
-# 
 # The marketing team at Sprocket Central Pty Ltd is sure that, if correctly analysed, the data would reveal useful customer insights which could help optimise resource allocation for targeted marketing. Hence, improve performance by focusing on high value customers.
 
 # # Here is your task
-
 # For context, Sprocket Central Pty Ltd is a long-standing KPMG client whom specialises in high-quality bikes and accessible cycling accessories to riders. Their marketing team is looking to boost business by analysing their existing customer dataset to determine customer trends and behaviour. 
-# 
-# Using the existing 3 datasets (Customer demographic, customer address and transactions) as a labelled dataset, please recommend which of these 1000 new customers should be targeted to drive the most value for the organisation. 
-# 
+# Using the existing 3 datasets (Customer demographic, customer address and transactions) as a labelled dataset, please recommend which of these 1000 new customers should be targeted to drive the most value for the organisation.  
 # In building this recommendation, we need to start with a PowerPoint presentation which outlines the approach which we will be taking. The client has agreed on a 3 week scope with the following 3 phases as follows - Data Exploration; Model Development and Interpretation.
-# 
-# Prepare a detailed approach for completing the analysis including activities – i.e. understanding the data distributions, feature engineering, data transformations, modelling, results interpretation and reporting. This detailed plan needs to be presented to the client to get a sign-off. Please advise what steps you would take. 
-# 
-# 
+#
+# Prepare a detailed approach for completing the analysis including activities – i.e. understanding the data distributions, feature engineering, data transformations, modelling, results interpretation and reporting. This detailed plan needs to be presented to the client to get a sign-off. Please advise what steps you would take.  
 # Please ensure your PowerPoint presentation includes a detailed approach for our strategy behind each of the 3 phases including activities involved in each - i.e. understanding the data distributions, feature engineering, data transformations, modelling, results interpretation and reporting. This detailed plan needs to be presented to the client to get a sign-off.
-# 
+ 
 # --
-# 
+ 
 # Tips: Raw data fields may be transformed into other calculated fields for modelling purposes (i.e. converting D.O.B to age or age groups).  Tips: You may source external data from the ABS / Census to add additional variables that may help support your model. 
 
 # In[1]:
-
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -37,8 +28,6 @@ import seaborn as sns
 
 
 # In[2]:
-
-
 sheet_name_to_read = 'NewCustomerList'
 file_path = r'C:\Users\Sweet\Downloads\Portofolio\KPMG_VI_New_raw_data_update_final.xlsx'
 
@@ -54,29 +43,19 @@ SprocketCentral.head()
 
 
 # In[3]:
-
-
 # Explore the data
 SprocketCentral[['past_3_years_bike_related_purchases', 'property_valuation', 'Rank', 'Value']].info()
 
-
 # In[4]:
-
-
 # Calculate summary statistics
 SprocketCentral[['past_3_years_bike_related_purchases', 'property_valuation', 'Rank', 'Value']].describe().transpose()
 
-
 # In[5]:
-
 
 # Identify missing values
 print(SprocketCentral[['past_3_years_bike_related_purchases', 'property_valuation', 'Rank', 'Value']].isnull().sum())
 
-
 # In[34]:
-
-
 # Sample data
 SprocketCentral['past_3_years_bike_related_purchases'] = SprocketCentral['past_3_years_bike_related_purchases'].astype(str)
 SprocketCentral['past_3_years_bike_related_purchases'] = SprocketCentral['past_3_years_bike_related_purchases'].str.replace('[^0-9]', '', regex=True)
@@ -115,10 +94,7 @@ for i, (data, title, ticks) in enumerate(zip(
 plt.tight_layout()
 plt.show()
 
-
 # In[117]:
-
-
 # Define the list of categorical columns to visualize
 categorical_columns = ['job_industry_category', 'wealth_segment', 'state']
 
@@ -152,8 +128,6 @@ plt.show()
 
 
 # In[125]:
-
-
 specific_job_titles = [
     'Business Systems Development Analyst',
     'Tax Accountant',
@@ -187,8 +161,6 @@ plt.show()
 
 
 # In[46]:
-
-
 # Feature Engineering: Create 'bicycle property' and 'customer_rank' feature
 def bicycle_group(purchases, valuation):
     if purchases < 50 and valuation <= 7:
@@ -206,47 +178,29 @@ def customer_rank(rank_val):
     else:
         return 'Other'
 
-
 # In[47]:
-
-
 SprocketCentral['past_3_years_bike_related_purchases'] = pd.to_numeric(SprocketCentral['past_3_years_bike_related_purchases'])
 SprocketCentral['property_valuation'] = pd.to_numeric(SprocketCentral['property_valuation'])
 
 SprocketCentral['bicycle property'] = SprocketCentral.apply(lambda row: bicycle_group(row['past_3_years_bike_related_purchases'], row['property_valuation']), axis=1)
 SprocketCentral['customer ranking'] = SprocketCentral.apply(lambda row: customer_rank(row['Rank']), axis=1)
 
-
 # In[27]:
-
-
 SprocketCentral['bicycle property'].value_counts()
 
-
 # In[48]:
-
-
 SprocketCentral['customer ranking'].value_counts()
 
-
 # In[49]:
-
-
 import statsmodels.api as sm
 
-
 # In[50]:
-
-
 bikePurchases = np.array(SprocketCentral['past_3_years_bike_related_purchases'])
 propertyValue = np.array(SprocketCentral['property_valuation'])
 ranK = np.array(SprocketCentral['Rank'])
 valuE = np.array(SprocketCentral['Value'])
 
-
 # In[63]:
-
-
 # Combine NumPy arrays into a single NumPy array for X
 X = np.column_stack((bikePurchases, propertyValue, ranK))
 
@@ -273,17 +227,11 @@ y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 print(f'Mean Squared Error: {mse}')
 
-
 # In[65]:
-
-
 missing_values = np.isnan(X_train)
 missing_values
 
-
 # In[73]:
-
-
 bikePurchases = bikePurchases.astype(np.float64)
 propertyValue = propertyValue.astype(np.float64)
 ranK = ranK.astype(np.float64)
@@ -298,33 +246,21 @@ coefficients = np.linalg.inv(X.T @ X) @ X.T @ y
 # Make predictions
 y_pred = X @ coefficients
 
-
 # In[75]:
-
-
 # Print the coefficients and predictions
 print("Coefficients:", coefficients)
 
-
 # In[79]:
-
-
 print("Predicted Values:", y_pred[:5])
 
-
 # In[80]:
-
-
 # Fit the multiple linear regression model
 model = sm.OLS(y, X).fit()
 
 # Print a summary of the regression results
 print(model.summary())
 
-
 # In[88]:
-
-
 plt.figure(figsize=(10, 6))
 plt.scatter(y, y_pred, alpha=0.5)  # Scatter plot of observed vs. predicted values
 plt.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=2)  # Diagonal line for perfect prediction
@@ -341,8 +277,6 @@ plt.show()
 
 
 # In[94]:
-
-
 data = pd.DataFrame({
     'bikePurchases': bikePurchases,
     'propertyValue': propertyValue,
@@ -363,4 +297,3 @@ ax = sns.heatmap(
 
 ax.xaxis.set_ticks_position('top')
 plt.show()
-
