@@ -1,25 +1,26 @@
 # ProfessionalSkills-Sims
-Experiential simulations to sharpen career-ready skills. 🚀
+Simulated Experiences for Refining Career-Ready Competencies. 🚀
 
-# Learning Professional Skills with Forage
-Welcome to my repository where I document my learning journey with the ProfessionalSkills-Sims from the Forage website. These simulations are designed to help me enhance my career-ready skills, including communication, teamwork, and problem-solving.
+# Developing Professional Skills through Forage
+Welcome to my GitHub repository, where I chronicle my learning journey with the ProfessionalSkills-Sims from the Forage platform. These simulations have been crafted to help me enhance my career-ready skills, encompassing communication, teamwork, and problem-solving.
 
 ## Overview
-In this repository, you'll find my notes, insights, and reflections on each simulation exercise. I'll be sharing my experiences as I work through these valuable learning resources.
+Within this repository, you'll discover my notes, insights, and reflections on each simulation exercise. I'll be sharing my experiences as I progress through these invaluable learning modules.
 
 ## Simulations
 
 - [KPMG Data Quality Assessment](./Simulations/KPMG-Data-Quality-Assessment)
+- [KPMG Data Insight](./Simulations/KPMG-Data-Insight)
 - [Data Insight Task: Book of Loans to PD](./Simulations/Data-Insight-Book-of-Loans-to-PD)
 - [Bucket FICO Scores Analysis](./Simulations/Bucket-FICO-Scores)
 - [Analyze Price Data](./Simulations/Analyze-Price-Data)
 - [Price Commodity Storage](./Simulations/Price-Commodity-Storage)
   
-Explore each simulation to learn more about my experiences and insights gained from these valuable exercises.
-Feel free to explore each simulation to get a glimpse of what I've learned and how these simulations have contributed to my professional growth.
+Feel free to delve into each simulation to gain deeper insights into my experiences and the knowledge I've acquired from these valuable exercises.
+Explore each simulation to get a glimpse of what I've learned and how these simulations have contributed to my professional growth.
 
 ## Feedback and Collaboration
-If you've also gone through these simulations or have any feedback, I'd love to hear from you! Let's learn and grow together.
+If you've also undergone these simulations or have any feedback to share, I'm eager to hear from you! Let's embark on a journey of mutual learning and development.
 
 ## Thank You
-A big thank you to Forage for providing these fantastic resources for skill development.
+I extend my heartfelt gratitude to Forage for providing these exceptional resources for skill development.
