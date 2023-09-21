@@ -2,42 +2,30 @@
 # coding: utf-8
 
 # # Here is the background information on your task
-
 # PowerCo is a major gas and electricity utility that supplies to corporate, SME (Small & Medium Enterprise), and residential customers. The power-liberalization of the energy market in Europe has led to significant customer churn, especially in the SME segment. They have partnered with BCG to help diagnose the source of churning SME customers.
-# 
-# A fair hypothesis is that price changes affect customer churn. Therefore, it is helpful to know which customers are more (or less) likely to churn at their current price, for which a good predictive model could be useful.
-# 
+# A fair hypothesis is that price changes affect customer churn. Therefore, it is helpful to know which customers are more (or less) likely to churn at their current price, for which a good predictive model could be useful. 
 # Moreover, for those customers that are at risk of churning, a discount might incentivize them to stay with our client. The head of the SME division is considering a 20% discount that is considered large enough to dissuade almost anyone from churning (especially those for whom price is the primary concern).
-# 
-# The Associate Director (AD) held an initial team meeting to discuss various hypotheses, including churn due to price sensitivity. After discussion with your team, you have been asked to go deeper on the hypothesis that the churn is driven by the customers’ price sensitivities. 
-# 
+# The Associate Director (AD) held an initial team meeting to discuss various hypotheses, including churn due to price sensitivity. After discussion with your team, you have been asked to go deeper on the hypothesis that the churn is driven by the customers’ price sensitivities.  
 # Your AD wants an email with your thoughts on how the team should go about testing this hypothesis.
-# 
 # The client plans to use the predictive model on the 1st working day of every month to indicate to which customers the 20% discount should be offered.
 
 # # Here is your task
-
 # Your first task today is to understand what is going on with the client and to think about how you would approach this problem and test the specific hypothesis.
-# 
 # You must formulate the hypothesis as a data science problem and lay out the major steps needed to test this hypothesis. Communicate your thoughts and findings in an email to your AD, focusing on the data that you would need from the client and the analytical models you would use to test such a hypothesis.
 # 
 # We would suggest spending no more than one hour on this task.
-# 
 # Please note, there are multiple ways to approach the task and that the model answer is just one way to do it.
 # 
 # **If you are stuck:**
-# 
 # - Remember what the key factors are for a customer deciding to stay with or switch providers
 # - Think of data sources and fields that could be used to explore the contribution of various factors to a customer’s possible action 
 # - Ideally, what would a data frame of your choice look like – what should each column and row represent? 
 # - What kind of exploratory analyses on the relevant fields can give more insights about the customer's churn behavior? 
 # 
 # **Estimated time for task completion: 1 hour depending on your learning style.**
-
 # # The Answers
 
 # To proem the answers that require from above tasks, I have recently to set up the operating libraries that would to support the variety questions that involved in mentioned from my client. As the closer I presented the steps into from following this section:
-# 
 # **Step 1: Defining the Problem**
 # I will define the problem as a task of classifying whether a customer is likely to leave or stay based on the provided data. In this case, the 'churn' variable is what I'm trying to predict, and the other columns in the dataset are the factors I'll use for making this prediction. The hypothesis I'm testing is whether customer sensitivity to prices, represented by factors like 'cons_12m,' 'imp_cons,' and others, affects the likelihood of them leaving.
 # 
@@ -72,8 +60,6 @@
 # I will summarize my discoveries in a comprehensive report or email to my AD. I will include insights from the data analysis, model performance, and the results of hypothesis testing. I will offer practical recommendations based on my analysis.
 
 # In[34]:
-
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -90,8 +76,6 @@ from sklearn.preprocessing import StandardScaler
 # Next, I need to load dataset for 'Client' data.
 
 # In[3]:
-
-
 file_path = r'C:\Users\Sweet\Downloads\Portofolio\client_data.csv'
 
 # Read the CSV file into a DataFrame
@@ -105,14 +89,10 @@ client_data.head()
 
 
 # In[4]:
-
-
 client_data.info()
 
 
 # In[10]:
-
-
 # List of date-related features
 date_features = ['date_activ', 'date_end', 'date_modif_prod', 'date_renewal']
 
@@ -126,14 +106,10 @@ client_data['contract_end_year'] = client_data['date_end'].dt.year
 
 
 # In[11]:
-
-
 print(client_data.isnull().sum())
 
 
 # In[12]:
-
-
 def describe_categorical(dataset):
     cat_columns = dataset.select_dtypes(include=['object']).columns.tolist()
     
@@ -150,14 +126,10 @@ def describe_categorical(dataset):
 
 
 # In[13]:
-
-
 describe_categorical(client_data)
 
 
 # In[35]:
-
-
 data_encoder = LabelEncoder()
 client_data['channel_sales'] = data_encoder.fit_transform(client_data['channel_sales'])
 origin_encoder = LabelEncoder()
@@ -165,8 +137,6 @@ client_data['origin_up'] = origin_encoder.fit_transform(client_data['origin_up']
 
 
 # In[36]:
-
-
 def describe_numeric(dataset):
     # Select numeric columns
     numeric_columns = dataset.select_dtypes(include=['int64', 'float64'])
@@ -188,14 +158,10 @@ def describe_numeric(dataset):
 
 
 # In[37]:
-
-
 describe_numeric(client_data)
 
 
 # In[45]:
-
-
 # Assuming 'client' of dataset
 datetime_columns = client_data.select_dtypes(include=['datetime64[ns]'])
 
@@ -219,8 +185,6 @@ else:
 
 
 # In[17]:
-
-
 # Step 1: Problem Formulation
 # Define the target variable (churn) and features
 
@@ -255,8 +219,6 @@ print("Classification Report:\n", report)
 
 
 # In[27]:
-
-
 # Step 4: Exploratory Data Analysis (EDA)
 # Visualize the distribution of the target variable 'churn'
 plt.figure(figsize=(6, 4))
@@ -266,8 +228,6 @@ plt.show()
 
 
 # In[19]:
-
-
 # Define the feature of interest and the target variable
 feature_of_interest = 'cons_12m'
 target_variable = 'churn'
@@ -287,8 +247,6 @@ print(f"P-value: {p_value}")
 
 
 # In[21]:
-
-
 # Hypothesis Testing - ANOVA (Analysis of Variance)
 # Perform ANOVA to test if 'cons_12m' has a significant impact on churn across multiple categories (e.g., different channel_sales)
 anova_result = client_data.groupby('channel_sales')[feature_of_interest].apply(list)
@@ -300,8 +258,6 @@ print(f"P-value (ANOVA): {p_value_anova}")
 
 
 # In[24]:
-
-
 # Visualize correlations between features and the target variable
 correlation_matrix = client_data.corr()
 plt.figure(figsize=(10, 8))
@@ -311,15 +267,10 @@ plt.show()
 
 
 # In[25]:
-
-
 # Step 5: Feature Engineering (Creating new features, if needed)
 # Example: Create a feature indicating the length of the customer's relationship with the utility company
 client_data['customer_tenure'] = (pd.to_datetime(client_data['date_end']) - pd.to_datetime(client_data['date_activ'])).dt.days
 
 
 # In[26]:
-
-
 client_data['customer_tenure']
-
