@@ -4,40 +4,34 @@
 # # Here is the background information on your task
 
 # The BCG project team thinks that building a churn model to understand whether price sensitivity is the largest driver of churn has potential. The client has sent over some data and the AD wants you to perform some exploratory data analysis.
-# 
-# The data that was sent over includes:
-# 
+# The data that was sent over includes: 
 # - Historical customer data: Customer data such as usage, sign up date, forecasted usage etc
 # - Historical pricing data: variable and fixed pricing data etc
 # - Churn indicator: whether each customer has churned or not
 # 
 # Please submit analysis in a code script, notebook, or PDF format. 
-# 
 # Please note, there are multiple ways to approach the task and that the sample answer is just one way to do it.
 
 # # Here is your task
 
 # **Sub-Task 1:**
 # Perform some exploratory data analysis. Look into the data types, data statistics, specific parameters, and variable distributions. This first subtask is for you to gain a holistic understanding of the dataset. You should spend around 1 hour on this.
-# 
+
 # **Sub-Task 2:**
 # Verify the hypothesis of price sensitivity being to some extent correlated with churn. It is up to you to define price sensitivity and calculate it. You should spend around 30 minutes on this.
-# 
-# 
+ 
 # **Sub-Task 3:**
 # Prepare a half-page summary or slide of key findings and add some suggestions for data augmentation – which other sources of data should the client provide you with and which open source datasets might be useful? You should spend 10-15 minutes on this.
-# 
+ 
 # For your final deliverable, please submit your analysis (in the form of a jupyter notebook, code script or PDF) as well as your half-page summary document.
-# 
+ 
 # **Note:** Use the 2 datasets within the additional resources for this task and if you’re unsure on where to start with visualizing data, use the accompanying links. Be sure to also use the data description document to understand what the columns represent. The task description document outlines the higher-level motivation of the project. Finally, use the eda_starter.ipynb file to get started with some helper functions and methods.
-# 
+
 # **If you are stuck:** Think about ways you can define price sensitivity. Make sure to think of all possible ways and investigate them.
 
 # # The Answers
 
 # In[28]:
-
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -53,8 +47,6 @@ from sklearn.preprocessing import StandardScaler
 
 
 # In[12]:
-
-
 file_path = r'C:\Users\Sweet\Downloads\Portofolio\client_data.csv'
 
 # Read the CSV file into a DataFrame
@@ -68,8 +60,6 @@ client_data.head()
 
 
 # In[2]:
-
-
 file_path = r'C:\Users\Sweet\Downloads\Portofolio\price_data.csv'
 
 # Read the CSV file into a DataFrame
@@ -83,28 +73,18 @@ price_data.head()
 
 
 # In[14]:
-
-
 price_data.shape
 
 
 # **SUB-TASK 1:**
 
 # In[3]:
-
-
 price_data.info()
 
-
 # In[6]:
-
-
 print(price_data.isnull().sum())
 
-
 # In[7]:
-
-
 def describe_categorical(dataset):
     cat_columns = dataset.select_dtypes(include=['object']).columns.tolist()
     
@@ -121,14 +101,9 @@ def describe_categorical(dataset):
 
 
 # In[8]:
-
-
 describe_categorical(price_data)
 
-
 # In[9]:
-
-
 def describe_numeric(dataset):
     # Select numeric columns
     numeric_columns = dataset.select_dtypes(include=['int64', 'float64'])
@@ -148,22 +123,13 @@ def describe_numeric(dataset):
     else:
         print('There are no numeric variables in the dataset')
 
-
 # In[10]:
-
-
 describe_numeric(price_data)
 
-
 # In[15]:
-
-
 price_data['price_date'] = pd.to_datetime(price_data['price_date'])
 
-
 # In[16]:
-
-
 datetime_columns = price_data.select_dtypes(include=['datetime64[ns]'])
 
 if not datetime_columns.empty:
@@ -186,20 +152,12 @@ else:
 
 
 # In[17]:
-
-
 price_data.describe()
 
-
 # In[18]:
-
-
 client_data.describe()
 
-
 # In[20]:
-
-
 # Visualize the distribution of specific parameters (columns)
 columns_to_plot = ['price_off_peak_var', 'price_peak_var', 'price_mid_peak_var',
                     'price_off_peak_fix', 'price_peak_fix', 'price_mid_peak_fix']
@@ -215,8 +173,6 @@ plt.show()
 
 
 # In[88]:
-
-
 def plot_stacked_bars(dataframe, title_, size_=(18, 10), rot_=0, legend_="upper right"):
     ax = dataframe.plot(
         kind="bar",
@@ -292,20 +248,14 @@ def plot_distribution(dataframe, column, ax, bins_=50):
     # Change the x-axis to plain style
     ax.ticklabel_format(style='plain', axis='x')
 
-
 # In[41]:
-
-
 churn = client_data[['id', 'churn']]
 churn.columns = ['Companies', 'churn']
 churn_total = churn.groupby(churn['churn']).count()
 churn_percentage = churn_total / churn_total.sum() * 100
 plot_stacked_bars(churn_percentage.transpose(), "Churning status", (5, 5), legend_="lower right")
 
-
 # In[89]:
-
-
 rows_of_interest = [5, 10, 15, 20, 25]  # Specify the rows of interest (e.g., rows 5, 10, 15, 20, 25)
 columns_of_interest = ['cons_12m', 'cons_gas_12m', 'cons_last_month', 'imp_cons']  # Specify the columns of interest
 
@@ -325,8 +275,6 @@ plt.show()
 
 
 # In[94]:
-
-
 columns_of_interest = ['cons_12m', 'cons_gas_12m', 'cons_last_month', 'imp_cons']
 
 # Create subplots for each column
@@ -347,8 +295,6 @@ plt.show()
 # **SUB-TASK 2:**
 
 # In[30]:
-
-
 # Check for missing values
 missing_values = price_data[['price_sensitivity', 'churn']].isnull().sum()
 
@@ -362,19 +308,13 @@ print(missing_values)
 print("\nInfinite Values:")
 print(infinite_values)
 
-
 # In[31]:
-
-
 # Handle missing values (if any)
 price_data.dropna(inplace=True)  # Uncomment this line to remove rows with missing values
 # Handle infinite values (if any)
 price_data.replace([np.inf, -np.inf], np.nan, inplace=True)  # Replace infinite values with NaN
 
-
 # In[32]:
-
-
 # Calculate the Pearson correlation coefficient and p-value
 correlation_coefficient, p_value = stats.pearsonr(price_data['price_sensitivity'], price_data['churn'])
 
@@ -393,16 +333,16 @@ else:
 # **SUB TASK 3:**
 
 # **From summarize the data insight that I was encompass the distribution analysis, this would be include of:**
-# 
+
 # - Churn Analysis: We investigated the relationship between price sensitivity and churn. The correlation analysis revealed a moderate negative correlation (-0.01), in contrast that I had avowal the correlation doesn't significant. This implies that customers who aren't less sensitive to price changes are more likely did not induced to churn.
 # - Price Sensitivity: We defined price sensitivity as the ratio of price variance to mean price for each customer. This measure allowed us to identify customers who are more sensitive to price fluctuations.
 # - Data Quality: We observed that the dataset contains both numerical and datetime columns. Data quality appears to be generally good, with minimal missing values.
-# 
+ 
 # **Suggestions for Data Augmentation:**
 # - Customer Demographics: To gain a more comprehensive understanding of churn drivers, it would be valuable to incorporate customer demographics such as age, gender, location, and income. This information can help identify demographic segments with higher churn rates.
 # - Customer Interaction Data: Collecting data on customer interactions, such as customer support queries, complaints, or feedback, could provide insights into customer satisfaction and its impact on churn.
 # - Competitor Pricing Data: Gathering data on competitor pricing in the energy market would enable a competitive analysis. This data can help assess whether price sensitivity is influenced by the pricing strategies of competitors.
 # - Economic Data: Economic indicators such as inflation rates, economic growth, and unemployment rates can affect customer behavior and energy consumption. Incorporating economic data can provide context for analyzing churn.
 # - Weather Data: Weather conditions can influence energy consumption patterns. Adding weather data, including temperature and seasonal trends, can enhance predictive models.
-# 
+
 # **Survey Data:** Conducting customer surveys to gather feedback on service quality, satisfaction, and reasons for potential churn can provide valuable qualitative insights.
