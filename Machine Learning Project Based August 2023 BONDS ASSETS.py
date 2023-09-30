@@ -2,10 +2,7 @@
 # coding: utf-8
 
 # # Library Supported
-
 # In[112]:
-
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -18,15 +15,10 @@ import statsmodels.formula.api as smf
 import statsmodels.api as sm
 from statsmodels.stats.weightstats import ttest_ind
 
-
 # # The Principal Interest Model
-
 # In[2]:
-
-
 #Variable construction
 #Certain price
-
 def t_int(start, end):
     dt = 0.01
     t = np.arange(start, end, dt)
@@ -39,36 +31,26 @@ def certain_price(t, T, r):
     else:
         return np.exp(-(T-t)*r)
 
-
 # In[3]:
-
-
 #Equality price from average interest rate
-
 def average_equal(t, T, r):
     t = t_int(t, T)
     return (-(1/(T-t))) * np.log(np.exp(-(T-t)*r))
 
 #Average price interest rate within interval [t, T]
-
 def average_interest(t, T, r):
     av1 = certain_price(t, T, r)
     av2 = average_equal(t, T, r)
     return av1 * av2
 
-
 # In[4]:
-
-
 #Forward spot rate, with a certain price respect to 'T'
-
 def spot_rate_forward(t, T, r):
     av3 = certain_price(t, T, r)
     partial_frac_PT = np.gradient(np.log(av3), T)
     return -1 * partial_frac_PT
 
 #Spot rate process, the convenant to reinvest a moment 'T'
-
 def principal_reinvest(t, r, T):
     dt = 0.01
     t_vals = np.arange(t, T, dt)
@@ -76,10 +58,7 @@ def principal_reinvest(t, r, T):
     results_reinvest = np.trapz(integrand_reinvest, t_vals)
     return np.exp(-results_reinvest)
 
-
 # In[5]:
-
-
 #Spot rates in direct account, with no arbitrage
 
 def Spot_Rates_Direct(t, T):
@@ -97,7 +76,6 @@ def Spot_Rates_Direct(t, T):
     return expectation
 
 #Risky bond market from enduring time 't' besides of investment price moment 't'
-
 def RiskyBond_moment(t, T, n):
     
     def integrand(r_s):
@@ -114,12 +92,9 @@ def RiskyBond_moment(t, T, n):
     
     return expectation
 
-
 # # In this fragmention of source code is to recount for Z based simulation
 
-# In[6]:
-
-
+# In[6]
 #Random walk
 def brownian_distribution(n_steps, T):
     t = T/n_steps
@@ -128,17 +103,14 @@ def brownian_distribution(n_steps, T):
     W = np.cumsum(dw)
     return W
 
-
 # In[7]:
-
-
 #Arrange the alpha --> portfolio returns
 #Pervade of returns and weights
 def weights(market_values):
     total_market = market_values.sum()
     market_weights = market_values/total_market
     return market_weights
-
+    
 def xreturns(prices, market_values):
     weights_prices = weights(market_values)
     returns = prices.pct_change().dropna()
@@ -172,12 +144,8 @@ def Z_input(market_values, prices, t, T, Brownian):
     Z_output = np.exp(-alpha * W_sign - 0.50 * alpha**2 * t)
     return Z_output
 
-
 # # A Girsanov's representation in our source for comtemplated of simulation
-
 # In[8]:
-
-
 #The sequel Girsanov's Theory in structured of subordinate 2 frame
 #Conducting the core algorithm for moment generation function of X* in Multiple returns Lambda (Diffrent drift process)
 def lambda_vals(mu, sigma):
@@ -185,10 +153,7 @@ def lambda_vals(mu, sigma):
     drift_diffusion = lambda t, X, mu, sigma: mu * X + sigma * X
     return drift_diffusion
 
-
 # In[9]:
-
-
 #The oflx are pieces of e power to lambda X
 def expected_value_oflx(t_vals, X, mu, sigma):
     sum = 0
@@ -198,7 +163,6 @@ def expected_value_oflx(t_vals, X, mu, sigma):
     return np.exp(0.50 * sum)
 
 #Calculated expected product in lambda intervals (drift process coefficient)
-
 def prod_value_oflx(lambda_j, t_vals, X):
     product = 1
     lambda_j = lambda_vals(mu, sigma)
@@ -208,8 +172,6 @@ def prod_value_oflx(lambda_j, t_vals, X):
 
 
 # In[10]:
-
-
 def oflx_combined(t_vals, X, mu, sigma):
     sum = 0
     lambda_j = lambda_vals(mu, sigma)
@@ -221,9 +183,7 @@ def oflx_combined(t_vals, X, mu, sigma):
         product += expected_value
     return product
 
-
 # # The Sample
-
 # In the purposed to conducted the simulation for this outcomes, I've try to deliberated from the sources of Appendix 5 based. The our of appendix are depict on the type of bond in Indonesian country, then the table have represented as:
 # 
 # | Bond Type | ORI | SR | SBR |
@@ -248,8 +208,6 @@ def time_arrays(start_time, end_time, dt):
 # Subsequently, I produced the times intervals with an range (t = 0, T = the depending by the time equals in the samples)
 
 # In[11]:
-
-
 #I need to potray the times array in eventuate the specific on my sample
 t_ORIT3, t_ORIT6, t_SRT3, t_SRT5, t_SBRT2, t_SBRT4 = [0, 0, 0, 0, 0, 0]
 T_ORIT3, T_ORIT6, T_SRT3, T_SRT5, T_SBRT2, T_SBRT4 = [3, 6, 3, 5, 2, 4]
@@ -262,12 +220,9 @@ time_SRT5 = t_int(t_SRT5, T_SRT5)
 time_SBRT2 = t_int(t_SBRT2, T_SBRT2)
 time_SBRT4 = t_int(t_SBRT4, T_SBRT4)
 
-
 # # ORI BONDS
 
 # In[12]:
-
-
 #ORI023
 #ORI-T3-T6
 #The Sample
@@ -294,10 +249,7 @@ RiskyBond_ORIT6 = RiskyBond_moment(t_ORIT6, T_ORIT6, len(Certain_price_ORIT6))
 AvgInterest_Direct_ORIT3 = Average_interest_ORIT3 * ORIT3_SpotRates_account
 AvgInterest_Direct_ORIT6 = Average_interest_ORIT6 * ORIT6_SpotRates_account
 
-
 # In[13]:
-
-
 #Assuming the market value = Average of interest in intervlals [t, T], and for prices are Certain price
 Return_ORIT3_Portfolio = alpha_return_portfolio(Average_interest_ORIT3, Certain_price_ORIT3)
 Return_ORIT6_Portfolio = alpha_return_portfolio(Average_interest_ORIT6, Certain_price_ORIT6)
@@ -320,8 +272,6 @@ GVS_ORIT6 = np.log(oflx_combined(time_ORIT6, 1, np.mean(AvgInterest_Direct_ORIT6
 # # SR BONDS
 
 # In[14]:
-
-
 #SR018
 #SR-T3-T5
 #The Sample
@@ -348,10 +298,7 @@ SRT5_RiskyBond = RiskyBond_moment(t_SRT5, T_SRT5, len(SRT5_Certain_price))
 SRT3_AvgInterest_Direct = SRT3_Average_interest * SRT3_SpotRates_account
 SRT5_AvgInterest_Direct = SRT5_Average_interest * SRT5_SpotRates_account
 
-
 # In[15]:
-
-
 # Assuming the market value = Average of interest in intervals [t, T], and for prices are Certain price
 Return_SRT3_Portfolio = alpha_return_portfolio(SRT3_Average_interest, SRT3_Certain_price)
 Return_SRT5_Portfolio = alpha_return_portfolio(SRT5_Average_interest, SRT5_Certain_price)
@@ -374,8 +321,6 @@ GVS_SRT5 = np.log(oflx_combined(time_SRT5, 1, np.mean(SRT5_AvgInterest_Direct), 
 # # SBR BONDS
 
 # In[16]:
-
-
 #SBR012
 #SBR-T2-T4
 #The Sample
@@ -402,10 +347,7 @@ SBRT4_RiskyBond = RiskyBond_moment(t_SBRT4, T_SBRT4, len(SBRT4_Certain_price))
 SBRT2_AvgInterest_Direct = SBRT2_Average_interest * SBRT2_SpotRates_account
 SBRT4_AvgInterest_Direct = SBRT4_Average_interest * SBRT4_SpotRates_account
 
-
 # In[17]:
-
-
 # Assuming the market value = Average of interest in intervals [t, T], and for prices are Certain price
 Return_SBRT2_Portfolio = alpha_return_portfolio(SBRT2_Average_interest, SBRT2_Certain_price)
 Return_SBRT4_Portfolio = alpha_return_portfolio(SBRT4_Average_interest, SBRT4_Certain_price)
@@ -426,14 +368,10 @@ GVS_SBRT4 = np.log(oflx_combined(time_SBRT4, 1, np.mean(SBRT4_AvgInterest_Direct
 
 
 # # The Data Sample with Delineate of Stats
-
 # In bellow from this code as made it to explain the set of data, that I will demonstrate the 'int' type output and generates the descriptive statistics from. Subsequently, the set of each table at the 'int' variety are used either to visualize or to perform displayed in the dataset only.
 
 # In[50]:
-
-
 #Summarization of Data
-
 Bonds_input = {
     
     'Bond':['ORI_T3', 'ORI_T6', 'SR_T3', 'SR_T5', 'SBR_T2', 'SBR_T4'],
@@ -455,16 +393,11 @@ Bonds_data
 
 
 # In[19]:
-
-
 Bonds_data.describe().transpose()
-
 
 # Now, at the subordinates of this code is to recount the depict on each function, that I have completion in the section previous of any Bond type. The code are tells to executed the descriptive statistics from pervade as it was to serves.
 
 # In[20]:
-
-
 def descriptive_stats(my_array):
     mean = np.mean(my_array)
     median = np.median(my_array)
@@ -484,49 +417,32 @@ def descriptive_stats(my_array):
             'Skewness': skewness, 
             'Kurtosis': kurtosis}
 
-
 # The precise in accordance of this code is a certain example in which the variable of previous that I have written.
 
 # In[21]:
-
-
 descriptive_stats(Certain_price_ORIT3)
-
 
 # # Statistics Testing
 
 # To adjusted the model statistical testing, I would to prefer in the manuscript that I wrap up in their Chapter 3 (Method Analysis/Tools Analysis), from the fragment of the section I write the tools to analyze the value in the umpteen sets of data, I choose to calculating the sample with T-Test Distribution and ANOVA from two-sample test. Afterwards, I genuinely will potray the results into the graph stats from corresponding to the aim the script before.
-
 # Additional information for T-Test Dist., the two-sample in mentioned is the X1: Certain price and Forward spot rate, while the X2: Average interest price interval with multiplication of Spot rates direct in account investor.
 # In the other hand, ANOVA samples will employeed for both two variable as the piece predicates in previous description.
 
 # In[22]:
-
-
 stats.shapiro(Certain_price_ORIT3)
 
-
 # In[23]:
-
-
 stats.levene(Certain_price_ORIT3, AvgInterest_Direct_ORIT3)
-
 
 # Due to theorem of Central Limit, it is possible to accepted the type of distribution, while the results in the above are p < 0.05, then as the sample population > more that was savvy to t-test can be used to the null hypothesis. Moreover, it means of two samples are equal. 
 
 # In[24]:
-
-
 stats.ttest_ind(Certain_price_ORIT3, AvgInterest_Direct_ORIT3, equal_var=False)
 
-
 # The turns up results as the authentically negative, this would expected from those distributions are being different in unequal mean, and futhermore the data would significanlly proper a < p(5%). In the case, this cannot be identify to state as the same meaning, that the data are would variety in temporal of times intervals [t, T].
-
 # # Set A Dataset (With the Example for Bond ORI & SRT)
 
 # In[56]:
-
-
 AAX = pd.DataFrame(
     {
         'Bonds Type': np.repeat(['ORI023', 'SRT018'], 300),
@@ -540,12 +456,9 @@ AAX = pd.DataFrame(
 )
 AAX.head()
 
-
 # To sum it up, the 'AAX' DataFrame is made to organize and store data about two types of bonds, which includes their certain prices, spot rates, and average direct account values. We use the 'head()' function to show the first few rows of this DataFrame and get an initial look at the data
 
 # In[23]:
-
-
 random_data = np.random.normal(0, 2, size=(len(AAX), 3))
 new_AAX = pd.DataFrame(AAX[['Certain Price', 'Spot Rate Forward', 'Average Direct Account']].values + random_data, columns=['Certain Price', 'Spot Rate Forward', 'Average Direct Account'])
 new_AAX['Bonds Type'] = AAX['Bonds Type']
@@ -554,12 +467,9 @@ col = new_AAX.pop('Bonds Type')
 new_AAX.insert(0, col.name, col)
 new_AAX.head()
 
-
 # This code introduces random variations to particular columns in the 'AAX' DataFrame. It keeps the 'Bonds Type' column, reorganizes the columns to place 'Bonds Type' at the beginning, and then displays the modified DataFrame. It seems the code's goal is to add randomness to specific financial data while retaining information about the bond types for analysis or simulations
 
 # In[24]:
-
-
 this code adds random noise to specific columns of the "AAX" DataFrame, retains the 'Bonds Type' column, and rearranges the columns to make 'Bonds Type' the first column in the resulting DataFrame, which is then displayed. The purpose of this code appears to be to introduce variability into certain financial data while preserving the bond type information for analysis or simulation purposes.# fit the linear regression model
 from scipy.stats import f_oneway
 
@@ -568,26 +478,22 @@ for col in new_AAX.columns[1:]:
     f_statistic, p_value = f_oneway(*groups)
     print(f'{col}: F-statistic={f_statistic:.2f}, p-value={p_value:.4f}')
 
-
 # We performed an ANOVA analysis on the 'Certain Price,' 'Spot Rate Forward,' and 'Average Direct Account' columns of the AAX DataFrame. We calculated the F-statistic and p-values for each column. For 'Certain Price' and 'Spot Rate Forward,' the F-statistic values were 2.00 and 0.11, respectively, with corresponding p-values of 0.1575 and 0.7447. As for 'Average Direct Account,' the F-statistic was 79.59, and the p-value was 0.0000. These results suggest that the 'Average Direct Account' column significantly influences the recovery, while the other columns have less impact.
-
 # # Creating the Graph Scheme
 
 # Stage 1: Scatter & Regression Analysis
 # Initial stage: Create a scatter plot and regression analysis to examine how 'Certain Price' and 'Spot Rate Forward' affect 'Average Interest Rate.'
-# 
+
 # Stage 2: Data Exploration Plot
 # Next, visualize 'Bonds_Data' with a plot to reveal key data trends or relationships.
-# 
+
 # Stage 3: Boxplot Analysis
 # Third stage: utilize boxplots with two independent and one dependent variable to understand data distribution and outliers.
-# 
+
 # Stage 4: 2D Plot - Random Variable Z vs. Market Value
 # Lastly, create a 2D plot illustrating how 'Random Variable Z' influences 'Market Value' variations, enhancing analysis insights.
 
 # In[26]:
-
-
 fig, ax = plt.subplots(1, 2, figsize=(12, 3))
 
 g1 = sns.regplot(
@@ -615,11 +521,7 @@ ax[1].set_title("Bonds Type: ORI023-T3 & SR018-T3")
 plt.tight_layout()
 plt.show()
 
-
 # In[69]:
-
-
-
 sns.lmplot(x="Certain Price", 
            y="Average Direct Account", 
            data=new_AAX, 
@@ -650,10 +552,7 @@ sns.set_style("white")
 plt.legend() 
 plt.title("Scatter Plot with Regression Line from ORI03-T3 & SR018-T3")
 
-
 # In[38]:
-
-
 df = pd.DataFrame(data=[(0.0590,Principal_RE_ORIT3,ORIT3_SpotRates_account,RiskyBond_ORIT3), 
                         (0.0610,Principal_RE_ORIT6,ORIT6_SpotRates_account,RiskyBond_ORIT6), 
                         (0.0625,SRT3_Principal_RE,SRT3_SpotRates_account,SRT3_RiskyBond), 
@@ -664,20 +563,14 @@ df = pd.DataFrame(data=[(0.0590,Principal_RE_ORIT3,ORIT3_SpotRates_account,Risky
                   columns=['Coupond Bond', 'Principal Reinvestment', 'Direct Spot Rates', 'Risky Bonds'])
 df.head()
 
-
 # In[22]:
-
-
 ax =  df.plot.bar(y='Principal Reinvestment', ylabel='Principal Reinvestment', figsize=(8, 5), color='black')
 df.plot(y='Risky Bonds', ax=ax, label='Risky Bonds', use_index=False, secondary_y=True, mark_right=False, color='red')
 ax.right_ax.set_ylabel('Risky Bonds')
 ax.legend(loc='upper right', bbox_to_anchor=(-0.01, 1.0))
 ax.set_title('Investment Comparison')
 
-
 # In[118]:
-
-
 get_ipython().run_line_magic('matplotlib', 'inline')
 group_pie = ['ORI T3', 'ORI T6', 'SR T3', 'SR T5', 'SBR T2', 'SBR T4']
 pie_set = pd.Series([0.0590, 0.0610, 0.0625, 0.0640, 0.0615, 0.0635],
@@ -701,10 +594,7 @@ plt.ylabel('')
 plt.legend(labels=pie_set.index, loc='upper left', bbox_to_anchor=(1.0, 1.0))
 plt.show()
 
-
 # In[85]:
-
-
 N = 300
 Certain_price = np.concatenate([Certain_price_ORIT3, SRT3_Certain_price])
 SpotRateForward = np.concatenate([SpotRateForward_ORIT3, SRT3_SpotRateForward])
@@ -727,10 +617,7 @@ ax = df.boxplot(column='Certain Price', by='Bonds Type', showfliers=True,
 ax.set_facecolor('white')
 sns.pointplot(x='Bonds Type', y='Certain Price', data=df.groupby('Bonds Type', as_index=False).mean(), ax=ax, color='green')
 
-
 # In[101]:
-
-
 fig, ax = plt.subplots(figsize=(9, 5))
 boxprops = {'color': 'blue'}
 whiskerprops = {'color': 'red'}
@@ -741,10 +628,7 @@ ax = df.boxplot(column='Average Direct Account', by='Bonds Type', showfliers=Tru
 ax.set_facecolor('white')
 sns.pointplot(x='Bonds Type', y='Average Direct Account', data=df.groupby('Bonds Type', as_index=False).mean(), ax=ax, color='green')
 
-
 # In[141]:
-
-
 # create a figure with 6 subplots
 fig, axs = plt.subplots(nrows=6, ncols=1, figsize=(10, 20))
 
@@ -801,6 +685,5 @@ for ax in axs:
 
 # display the plot
 plt.show()
-
 
 # In all the examples we've seen, the calculations are ongoing. That's why this section is primarily used for creating and identifying output formats in research projects related to bonds
