@@ -11,6 +11,9 @@ Within this repository, you'll discover my notes, insights, and reflections on e
 
 - [KPMG Data Quality Assessment](./Simulations/KPMG-Data-Quality-Assessment)
 - [KPMG Data Insight](./Simulations/KPMG-Data-Insight)
+- [Business Understanding & Hypothesis Framing](./Simulations/KPMG-Data-Insight)
+- [Exploratory Data Analysis](./Simulations/KPMG-Data-Insight)
+- [Feature Engineering & Modelling](./Simulations/KPMG-Data-Insight)
 - [Data Insight Task: Book of Loans to PD](./Simulations/Data-Insight-Book-of-Loans-to-PD)
 - [Bucket FICO Scores Analysis](./Simulations/Bucket-FICO-Scores)
 - [Analyze Price Data](./Simulations/Analyze-Price-Data)
