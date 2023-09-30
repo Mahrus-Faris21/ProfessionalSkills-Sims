@@ -8,7 +8,7 @@
 # - Historical customer data: Customer data such as usage, sign up date, forecasted usage etc
 # - Historical pricing data: variable and fixed pricing data etc
 # - Churn indicator: whether each customer has churned or not
-# 
+
 # Please submit analysis in a code script, notebook, or PDF format. 
 # Please note, there are multiple ways to approach the task and that the sample answer is just one way to do it.
 
@@ -30,7 +30,6 @@
 # **If you are stuck:** Think about ways you can define price sensitivity. Make sure to think of all possible ways and investigate them.
 
 # # The Answers
-
 # In[28]:
 import pandas as pd
 import numpy as np
@@ -45,7 +44,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.preprocessing import StandardScaler
 
-
 # In[12]:
 file_path = r'C:\Users\Sweet\Downloads\Portofolio\client_data.csv'
 
@@ -57,7 +55,6 @@ client_data.reset_index(drop=True, inplace=True)
 
 # Display the first few rows of the DataFrame
 client_data.head()
-
 
 # In[2]:
 file_path = r'C:\Users\Sweet\Downloads\Portofolio\price_data.csv'
@@ -71,13 +68,11 @@ price_data.reset_index(drop=True, inplace=True)
 # Display the first few rows of the DataFrame
 price_data.head()
 
-
 # In[14]:
 price_data.shape
 
 
 # **SUB-TASK 1:**
-
 # In[3]:
 price_data.info()
 
@@ -98,7 +93,6 @@ def describe_categorical(dataset):
             print(f"Description of '{cat}':\n", describe_frame, '\n' + '--' * 40)
     else:
         print('There are no categorical variables in the dataset')
-
 
 # In[8]:
 describe_categorical(price_data)
@@ -150,7 +144,6 @@ if not datetime_columns.empty:
 else:
     print('There are no datetime variables in the dataset')
 
-
 # In[17]:
 price_data.describe()
 
@@ -170,7 +163,6 @@ plt.xlabel('Price')
 plt.ylabel('Frequency')
 plt.legend()
 plt.show()
-
 
 # In[88]:
 def plot_stacked_bars(dataframe, title_, size_=(18, 10), rot_=0, legend_="upper right"):
